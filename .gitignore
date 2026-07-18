@@ -1,5 +1,6 @@
 # Node/Vite
 node_modules/
+day-01/frontend/node_modules/
 dist/
 .vite/
 .env
