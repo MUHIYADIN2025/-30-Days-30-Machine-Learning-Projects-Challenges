@@ -1,0 +1,40 @@
+# Node/Vite
+node_modules/
+dist/
+.vite/
+.env
+.env.*
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pyo
+.Python
+env/
+venv/
+.venv/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+log/
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE/editor
+.vscode/
+.idea/
+*.suo
+*.ntvs_* 
+*.njsproj
+*.sln
+*.swp
