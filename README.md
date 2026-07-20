@@ -1,6 +1,6 @@
 # 30 Days 30 Machine Learning Projects-Challenges
 
-This repository contains a collection of machine learning projects and challenges, one for each day of the 30-day learning journey. Each project is intended to help you practice key ML concepts and build a strong foundation in machine learning.
+This repository contains a collection of machine learning projects and challenges, one for each day of the 30-day learning journey. Each project is intended to help me practice key ML concepts and build a strong foundation in machine learning.
 
 ## Repository Structure
 
