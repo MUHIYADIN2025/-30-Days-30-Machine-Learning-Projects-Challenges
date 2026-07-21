@@ -75,3 +75,6 @@ you *who is worth calling first*.
   precision trade-offs.
 - Build a simple dashboard ranking at-risk customers by expected revenue
   loss, for a retention team to act on directly.
+
+
+  Project Repository : https://github.com/MUHIYADIN2025/churn-segmentation-project
