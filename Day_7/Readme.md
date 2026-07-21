@@ -1,95 +1,55 @@
-# Credit Card Default Prediction using Random Forest
+# 💳 Credit Card Default Risk Intelligence Dashboard
 
-## About this Notebook
+An end-to-end Machine Learning web application designed to predict the likelihood of credit card default using client demographic data, payment history, and billing records. 
 
-This notebook demonstrates how to build a machine learning model to predict whether a credit card customer is likely to default on their next payment. The project uses the **UCI Credit Card Default Dataset** and implements a **Random Forest Classifier** with Scikit-learn.
+The project features a **FastAPI** backend serving a trained **RandomForestClassifier** model and an interactive **React + Tailwind CSS** frontend dashboard.
 
-The notebook covers the complete machine learning workflow, including:
+---
 
-- Loading the dataset
-- Data preprocessing
-- Feature and target selection
-- Splitting the dataset into training and validation sets
-- Training a Random Forest Classifier
-- Making predictions
-- Evaluating model performance using classification metrics
+## 📁 Project Structure
 
-## Dataset
-
-**Dataset:** UCI Credit Card Default Dataset
-
-**Target Variable:**
-- `default.payment.next.month`
-  - `0` = No Default
-  - `1` = Default
-
-## Technologies Used
-
-- Python
-- Pandas
-- NumPy
-- Scikit-learn
-- Random Forest Classifier
-
-## Machine Learning Workflow
-
-1. Load the dataset
-2. Prepare features and target
-3. Split data into training and validation sets
-4. Train a Random Forest model
-5. Predict customer defaults
-6. Evaluate model accuracy and performance
-
-## Model
-
-The notebook uses the following Random Forest configuration:
-
-- `n_estimators = 400`
-- `max_depth = 20`
-- `min_samples_leaf = 8`
-- `random_state = 42`
-
-## Evaluation Metrics
-
-The model is evaluated using:
-
-- Accuracy Score
-- Confusion Matrix
-- Classification Report
-
-## Learning Objectives
-
-After completing this notebook, you will understand how to:
-
-- Prepare data for supervised learning
-- Train a Random Forest classifier
-- Predict customer credit default risk
-- Evaluate classification models
-- Build an end-to-end machine learning pipeline
-
-## Requirements
-
-Install the required packages:
-
-```bash
-pip install pandas numpy scikit-learn
-```
-
-## Project Structure
-
-```
-project/
+```text
+credit-default-dashboard/
 │
-├── Day_7.ipynb
-├── UCI_Credit_Card.csv
-└── README.md
-```
+├── README.md                # Project documentation
+│
+├── backend/
+│   ├── app.py               # FastAPI server script
+│   ├── export_model.py      # Model serialization helper
+│   ├── model.pkl            # Trained RandomForest model weights
+│   ├── features.pkl         # Saved feature order matching training data
+│   └── requirements.txt     # Python backend dependencies
+│
+└── frontend/
+    ├── public/
+    │   └── index.html       # Primary HTML entry point
+    ├── src/
+    │   ├── App.js           # React Dashboard component & logic
+    │   ├── index.js         # React root entry point
+    │   └── index.css        # Tailwind CSS imports & base styles
+    ├── package.json         # Node.js dependencies
+    └── tailwind.config.js   # Tailwind configuration
+
+
+✨ Features
+Real-time Assessment: Interactive form controls to dynamically recalculate risk status.
+
+Risk Probability Meter: Visual indication displaying calculated risk percentages.
+
+Interactive Charting: Dynamic Recharts bar graphs reflecting bill vs. payment history trends.
+
+Session History Tracking: Logs recent client evaluations within the current browser session.
+
+Dark Mode UI: Modern financial dashboard design using Tailwind CSS and Lucide React icons.
+
+
 
 ## Author
 
+
 **Muhiadin Said Hassan**
+
 
 AI Engineer | Machine Learning Enthusiast
 
 
-This notebook is intended for educational purposes and demonstrates a practical application of machine learning for credit risk prediction.
