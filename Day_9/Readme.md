@@ -10,6 +10,32 @@ a non-time-series-specific model.
 
 ## Contents
 
+## Dataset
+
+This project uses **`city_temperature.csv`** (~134 MB), which is **not committed to this repository** — it exceeds GitHub's 100 MB file size limit and is excluded via `.gitignore`.
+
+### Download steps
+
+1. Locate the dataset (commonly the "Daily Temperature of Major Cities" dataset on Kaggle: https://www.kaggle.com/datasets/sudalairajkumar/daily-temperature-of-major-cities — confirm this matches the exact source you used).
+2. Download and unzip it.
+3. Place the CSV at: `Day_9/backend/city_temperature.csv`
+
+### Before training or running the API
+
+`train_model.py` and `main.py` expect this file at the path above. If it's missing, `train_model.py` will raise a `FileNotFoundError` — re-download the dataset and place it there before running:
+
+```bash
+cd Day_9/backend
+python train_model.py
+```
+
+This regenerates `model.joblib` locally, which **is** committed to the repo, so the FastAPI service (`main.py`) can run immediately without retraining — only re-run `train_model.py` if you want to retrain on updated data.
+
+
+
+
+
+
 - `Day_9.ipynb` — the full notebook: data loading, preprocessing, training,
   evaluation, and visualization.
 - `backend/` — FastAPI service serving the trained model (`train_model.py`,
