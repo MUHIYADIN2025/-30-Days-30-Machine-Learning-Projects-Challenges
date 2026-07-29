@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Risk Prediction</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Diabetes Prediction System</h2>
+        <form id="predictionForm">
+            <div class="form-group">
+                <label for="pregnancies">Pregnancies:</label>
+                <input type="number" id="pregnancies" required min="0" value="1">
+            </div>
+            <div class="form-group">
+                <label for="glucose">Glucose Level:</label>
+                <input type="number" id="glucose" required min="0" value="120">
+            </div>
+            <div class="form-group">
+                <label for="bloodPressure">Blood Pressure (mm Hg):</label>
+                <input type="number" id="bloodPressure" required min="0" value="70">
+            </div>
+            <div class="form-group">
+                <label for="skinThickness">Skin Thickness (mm):</label>
+                <input type="number" id="skinThickness" required min="0" value="20">
+            </div>
+            <div class="form-group">
+                <label for="insulin">Insulin Level (mu U/ml):</label>
+                <input type="number" id="insulin" required min="0" value="80">
+            </div>
+            <div class="form-group">
+                <label for="bmi">BMI:</label>
+                <input type="number" id="bmi" step="0.1" required min="0" value="25.0">
+            </div>
+            <div class="form-group">
+                <label for="diabetesPedigreeFunction">Diabetes Pedigree Function:</label>
+                <input type="number" id="diabetesPedigreeFunction" step="0.001" required min="0" value="0.5">
+            </div>
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" id="age" required min="1" value="30">
+            </div>
+            <button type="submit">Predict Risk</button>
+        </form>
+
+        <div id="result" class="result-box hidden">
+            <h3 id="resultHeader"></h3>
+            <p id="resultDetails"></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
