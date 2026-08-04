@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scholarship Eligibility Screener</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto space-y-8">
+        
+        <!-- Header -->
+        <header class="text-center space-y-2">
+            <h1 class="text-3xl font-extrabold text-blue-400">🎓 Scholarship Eligibility Predictor</h1>
+            <p class="text-slate-400">K-Nearest Neighbors (KNN) ML Classification Model</p>
+        </header>
+
+        <!-- Model Performance Metrics Banner -->
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
+            <div>
+                <p class="text-xs text-slate-400 uppercase font-semibold">Model Accuracy</p>
+                <p id="metric-accuracy" class="text-xl font-bold text-emerald-400">Loading...</p>
+            </div>
+            <div>
+                <p class="text-xs text-slate-400 uppercase font-semibold">F1-Score</p>
+                <p id="metric-f1" class="text-xl font-bold text-blue-400">Loading...</p>
+            </div>
+            <div class="col-span-2 md:col-span-1">
+                <p class="text-xs text-slate-400 uppercase font-semibold">Algorithm Parameter</p>
+                <p id="metric-k" class="text-xl font-bold text-indigo-400">k = 5</p>
+            </div>
+        </div>
+
+        <!-- Input Form -->
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-6 shadow-xl">
+            <form id="prediction-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <div>
+                    <label class="block text-sm font-medium mb-1">GPA (0.00 - 4.00)</label>
+                    <input type="number" step="0.01" min="0" max="4" id="GPA" value="3.50" required
+                        class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Annual Family Income ($ USD)</label>
+                    <input type="number" min="0" id="Family_Income_USD" value="120" required
+                        class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Orphanage Status</label>
+                    <select id="Orphanage" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+                        <option value="Yes">Yes</option>
+                        <option value="No" selected>No</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Disability Status</label>
+                    <select id="Disability" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+                        <option value="Yes">Yes</option>
+                        <option value="No" selected>No</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Community Service Record</label>
+                    <select id="Community_Service" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+                        <option value="Yes" selected>Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Extracurricular Activities</label>
+                    <select id="Extracurricular_Activities" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+                        <option value="Yes" selected>Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium mb-1">Prior Disciplinary Record</label>
+                    <select id="Disciplinary_Record" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+                        <option value="Yes">Yes (Has Record)</option>
+                        <option value="No" selected>No (Clean Record)</option>
+                    </select>
+                </div>
+
+                <div class="md:col-span-2 pt-2">
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 font-semibold py-3 rounded-lg transition duration-200 shadow-lg">
+                        Run Eligibility Assessment
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Results Display Box -->
+        <div id="result-card" class="hidden border rounded-xl p-6 text-center space-y-2 transition-all duration-300">
+            <h2 class="text-sm uppercase tracking-wider font-semibold text-slate-400">Prediction Outcome</h2>
+            <div id="result-status" class="text-2xl font-black"></div>
+            <p id="result-confidence" class="text-sm text-slate-300"></p>
+        </div>
+
+    </div>
+
+    <script>
+        const API_BASE = "http://127.0.0.1:8000";
+
+        // Fetch metrics on application startup
+        async function fetchMetrics() {
+            try {
+                const res = await fetch(`${API_BASE}/api/metrics`);
+                const data = await res.json();
+                document.getElementById('metric-accuracy').innerText = `${(data.accuracy * 100).toFixed(1)}%`;
+                document.getElementById('metric-f1').innerText = data.f1_score;
+                document.getElementById('metric-k').innerText = `k = ${data.k_neighbors}`;
+            } catch (err) {
+                console.error("Failed to load metrics:", err);
+            }
+        }
+
+        // Handle Prediction Form Submission
+        document.getElementById('prediction-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const payload = {
+                GPA: parseFloat(document.getElementById('GPA').value),
+                Family_Income_USD: parseFloat(document.getElementById('Family_Income_USD').value),
+                Orphanage: document.getElementById('Orphanage').value,
+                Disability: document.getElementById('Disability').value,
+                Community_Service: document.getElementById('Community_Service').value,
+                Extracurricular_Activities: document.getElementById('Extracurricular_Activities').value,
+                Disciplinary_Record: document.getElementById('Disciplinary_Record').value
+            };
+
+            try {
+                const res = await fetch(`${API_BASE}/api/predict`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const result = await res.json();
+                const resultCard = document.getElementById('result-card');
+                const resultStatus = document.getElementById('result-status');
+                const resultConfidence = document.getElementById('result-confidence');
+
+                resultCard.classList.remove('hidden', 'bg-emerald-900/30', 'border-emerald-500', 'bg-rose-900/30', 'border-rose-500');
+
+                if (result.eligibility_code === 1) {
+                    resultCard.classList.add('bg-emerald-900/30', 'border-emerald-500');
+                    resultStatus.className = 'text-2xl font-black text-emerald-400';
+                    resultStatus.innerText = `✅ ${result.status}`;
+                } else {
+                    resultCard.classList.add('bg-rose-900/30', 'border-rose-500');
+                    resultStatus.className = 'text-2xl font-black text-rose-400';
+                    resultStatus.innerText = `❌ ${result.status}`;
+                }
+
+                resultConfidence.innerText = `Model Confidence Score: ${result.confidence}%`;
+            } catch (err) {
+                alert("Error connecting to backend API. Please make sure FastAPI server is running.");
+            }
+        });
+
+        fetchMetrics();
+    </script>
+</body>
+</html>
